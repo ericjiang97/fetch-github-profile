@@ -18,7 +18,7 @@ const LABELS = {
 }
 const options = commandLineArgs(optionDefinitions)
 
-if(!options.user){
+if(options.user === null || options.user === undefined){
     console.error('An occured has occured, please pass in a user under --user="username"')
     process.exit(1);
 }
