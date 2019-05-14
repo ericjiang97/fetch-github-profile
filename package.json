@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/lorderikir/fetch-git#readme",
   "dependencies": {
-    "axios": "^0.18.0"
+    "axios": "^0.18.0",
+    "command-line-args": "^5.1.1"
   }
 }
