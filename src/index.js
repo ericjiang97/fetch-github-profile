@@ -39,4 +39,7 @@ axios.get(`https://api.github.com/users/${options.user}`)
         companyProfile && console.log(' '.repeat(4) + '|' + companyProfile + '|')
         console.log(' '.repeat(5) + '-'.repeat(MAX_MIDDLE))
 
+    }).catch(error => {
+        console.error(`${error.response.status}: ${error.response.statusText}`);
+        process.exit(1);
     })
