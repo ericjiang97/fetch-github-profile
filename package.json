@@ -24,5 +24,8 @@
   "bugs": {
     "url": "https://github.com/lorderikir/fetch-git/issues"
   },
-  "homepage": "https://github.com/lorderikir/fetch-git#readme"
+  "homepage": "https://github.com/lorderikir/fetch-git#readme",
+  "dependencies": {
+    "axios": "^0.18.0"
+  }
 }
