@@ -4,7 +4,7 @@
   "description": "Fetching GitHub Profile and Generating a Card on CLI",
   "main": "src/index.js",
   "scripts": {
-    "start": "node ./index.js",
+    "develop": "node ./index.js",
     "test": "npm run test"
   },
   "bin": {
@@ -28,5 +28,8 @@
   "dependencies": {
     "axios": "^0.18.0",
     "command-line-args": "^5.1.1"
+  },
+  "devDependencies": {
+    "prettier": "^1.17.1"
   }
 }
