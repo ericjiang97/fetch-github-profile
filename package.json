@@ -1,14 +1,14 @@
 {
   "name": "fetch-github-profile",
-  "version": "0.0.3-alpha",
+  "version": "0.0.4-alpha",
   "description": "Fetching GitHub Profile and Generating a Card on CLI",
   "main": "src/index.js",
   "scripts": {
-    "start": "node src/index.js",
+    "start": "node ./index.js",
     "test": "npm run test"
   },
   "bin": {
-    "fetch-github-profile": "src/index.js"
+    "fetch-github-profile": "./index.js"
   },
   "repository": {
     "type": "git",
@@ -28,6 +28,6 @@
   "dependencies": {
     "axios": "^0.18.0",
     "command-line-args": "^5.1.1",
-    "fetch-github-profile": "^0.0.2-alpha1"
+    "fetch-github-profile": "^0.0.3-alpha"
   }
 }
