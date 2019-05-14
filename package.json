@@ -27,7 +27,8 @@
   "homepage": "https://github.com/lorderikir/fetch-git#readme",
   "dependencies": {
     "axios": "^0.18.0",
-    "command-line-args": "^5.1.1"
+    "command-line-args": "^5.1.1",
+    "inquirer": "^6.3.1"
   },
   "devDependencies": {
     "prettier": "^1.17.1"
