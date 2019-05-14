@@ -1,0 +1,24 @@
+{
+  "name": "fetch-github-profile",
+  "version": "0.0.1-alpha",
+  "description": "Fetching GitHub Profile and Generating a Card on CLI",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lorderikir/fetch-git.git"
+  },
+  "keywords": [
+    "github",
+    "profiles",
+    "fetcjh"
+  ],
+  "author": "Eric Jiang <ericjiang97@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lorderikir/fetch-git/issues"
+  },
+  "homepage": "https://github.com/lorderikir/fetch-git#readme"
+}
