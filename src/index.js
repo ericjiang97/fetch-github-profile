@@ -18,6 +18,11 @@ const LABELS = {
 }
 const options = commandLineArgs(optionDefinitions)
 
+if(!options.user){
+    console.error('An occured has occured, please pass in a user under --user="username"')
+    process.exit(1);
+}
+
 axios.get(`https://api.github.com/users/${options.user}`)
     .then(resp => resp.data)
     .then(data => {
@@ -27,7 +32,7 @@ axios.get(`https://api.github.com/users/${options.user}`)
         
         const nameWithLabel = `${LABELS.name}${' '.repeat(MAX_WHITESPACE-LABELS.name.length-name.length)}${name}  `
         const githubProfile = `${LABELS.github_profile}${' '.repeat(MAX_WHITESPACE-LABELS.github_profile.length-html_url.length)}${html_url}  `
-        const companyProfile = `${LABELS.company}${' '.repeat(MAX_WHITESPACE-LABELS.company.length-(company ? company.length : 0))}${company}  `
+        const companyProfile = `${LABELS.company}${' '.repeat(MAX_WHITESPACE-LABELS.company.length-(company ? company.length : 0))}${company || ''}  `
         console.log(' '.repeat(5) + '-'.repeat(MAX_MIDDLE))
         name && console.log(' '.repeat(4) + '|' + nameWithLabel + '|')
         githubProfile && console.log(' '.repeat(4) + '|' + githubProfile + '|')
