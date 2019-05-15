@@ -1,6 +1,6 @@
-# fetch-git
+# fetch-github-profile
 
-Fetching Git Profile into Your Terminal
+Fetching a GitHub Profile Card directly into Your Terminal
 
 [![npm version](https://badge.fury.io/js/fetch-github-profile.svg)](https://github.com/lorderikir/fetch-github-profile)
 
