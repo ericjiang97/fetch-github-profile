@@ -14,6 +14,7 @@ const MAX_MIDDLE = 80;
 const LABELS = {
   name: " Name:",
   github_profile: " GitHub Profile:",
+  personal_website: " Personal Website:",
   company: " Company:",
   location: " Location:",
   hireable: {
@@ -45,7 +46,16 @@ promptAndGetUserName().then(username => {
     .get(`https://api.github.com/users/${username}`)
     .then(resp => resp.data)
     .then(data => {
-      const { name, html_url, company, login, location, hireable } = data;
+      const {
+        name,
+        html_url,
+        company,
+        login,
+        location,
+        hireable,
+        blog,
+        avatar_url
+      } = data;
 
       const MAX_WHITESPACE = MAX_MIDDLE - 2;
 
@@ -71,6 +81,12 @@ promptAndGetUserName().then(username => {
           (html_url ? html_url.length : 0)
       )}${html_url}  `;
 
+      const blogLink = `${chalk.cyan.bold(LABELS.personal_website)}${" ".repeat(
+        MAX_WHITESPACE -
+          LABELS.personal_website.length -
+          (blog ? blog.length : 0)
+      )}${blog}  `;
+
       const companyProfile = `${chalk.cyan.bold(LABELS.company)}${" ".repeat(
         MAX_WHITESPACE - LABELS.company.length - (company ? company.length : 0)
       )}${company || ""}  `;
@@ -85,12 +101,13 @@ promptAndGetUserName().then(username => {
         MAX_WHITESPACE - gitHubHireableLength + 1
       )} `;
 
-      // Print Card
       console.log(" ".repeat(5) + "-".repeat(MAX_MIDDLE));
       gitHubName && console.log(" ".repeat(4) + "|" + nameWithLabel + "|");
       githubProfile && console.log(" ".repeat(4) + "|" + githubProfile + "|");
+      blogLink && console.log(" ".repeat(4) + "|" + blogLink + "|");
       companyProfile && console.log(" ".repeat(4) + "|" + companyProfile + "|");
       gitHubLocation && console.log(" ".repeat(4) + "|" + gitHubLocation + "|");
+
       cardInfoGitHubHireable &&
         console.log(" ".repeat(4) + "|" + cardInfoGitHubHireable + "|");
       console.log(" ".repeat(5) + "-".repeat(MAX_MIDDLE));
