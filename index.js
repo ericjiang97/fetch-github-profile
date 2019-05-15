@@ -9,113 +9,91 @@ const chalk = require("chalk");
 
 const optionDefinitions = [{ name: "user", alias: "u", type: String }];
 
-const MAX_MIDDLE = 80;
+const MAX_WIDTH = 50;
 
 const LABELS = {
-  name: " Name:",
-  github_profile: " GitHub Profile:",
-  personal_website: " Personal Website:",
-  company: " Company:",
-  location: " Location:",
+  name: "Name:  ",
+  github: "GitHub:  ",
+  website: "Website:  ",
+  company: "Company:  ",
+  location: "Location:  ",
   hireable: {
-    hireable: " This user is currently available for hire",
-    notHireable: " This user is currently not available for hire"
+    hireable: "This user is currently available for hire",
+    notHireable: "This user is currently not available for hire"
   }
 };
+
 const options = commandLineArgs(optionDefinitions);
 
 function promptAndGetUserName() {
-  if (options.user === null || options.user === undefined) {
-    return inquirer
-      .prompt([
-        {
-          type: "input",
-          name: "username",
-          message: "enter a username"
-        }
-      ])
-      .then(resp => {
-        return resp.username;
-      });
-  } else {
-    return new Promise((resolve, reject) => resolve(options.user));
-  }
+  if (options.user) return Promise.resolve(options.user);
+
+  return inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "username",
+        message: "Enter a username >"
+      }
+    ])
+    .then(resp => resp.username);
 }
+
 promptAndGetUserName().then(username => {
   axios
     .get(`https://api.github.com/users/${username}`)
     .then(resp => resp.data)
     .then(data => {
-      const {
-        name,
-        html_url,
-        company,
-        login,
-        location,
-        hireable,
-        blog,
-        avatar_url
-      } = data;
+      const lines = [];
+      const { name, html_url, company, login, location, hireable, blog } = data;
 
-      const MAX_WHITESPACE = MAX_MIDDLE - 2;
-
-      let gitHubName = name || login;
-      const gitHubHireable = hireable
-        ? chalk.green.bold(LABELS.hireable.hireable)
-        : chalk.red.bold(LABELS.hireable.notHireable);
-      const gitHubHireableLength = hireable
-        ? LABELS.hireable.hireable.length
-        : LABELS.hireable.notHireable.length;
-
-      const nameWithLabel = `${chalk.cyan.bold(LABELS.name)}${" ".repeat(
-        MAX_WHITESPACE -
-          LABELS.name.length -
-          (gitHubName ? gitHubName.length : 0)
-      )}${gitHubName}  `;
-
-      const githubProfile = `${chalk.cyan.bold(
-        LABELS.github_profile
-      )}${" ".repeat(
-        MAX_WHITESPACE -
-          LABELS.github_profile.length -
-          (html_url ? html_url.length : 0)
-      )}${html_url}  `;
-
-      const blogLink = `${chalk.cyan.bold(LABELS.personal_website)}${" ".repeat(
-        MAX_WHITESPACE -
-          LABELS.personal_website.length -
-          (blog ? blog.length : 0)
-      )}${blog}  `;
-
-      const companyProfile = `${chalk.cyan.bold(LABELS.company)}${" ".repeat(
-        MAX_WHITESPACE - LABELS.company.length - (company ? company.length : 0)
-      )}${company || ""}  `;
-
-      const gitHubLocation = `${chalk.cyan.bold(LABELS.location)}${" ".repeat(
-        MAX_WHITESPACE -
-          LABELS.location.length -
-          (location ? location.length : 0)
-      )}${location || ""}  `;
-
-      const cardInfoGitHubHireable = `${gitHubHireable}${" ".repeat(
-        MAX_WHITESPACE - gitHubHireableLength + 1
-      )} `;
-
-      console.log(" ".repeat(5) + "-".repeat(MAX_MIDDLE));
-      gitHubName && console.log(" ".repeat(4) + "|" + nameWithLabel + "|");
-      githubProfile && console.log(" ".repeat(4) + "|" + githubProfile + "|");
-      blogLink && console.log(" ".repeat(4) + "|" + blogLink + "|");
-      companyProfile && console.log(" ".repeat(4) + "|" + companyProfile + "|");
-      gitHubLocation && console.log(" ".repeat(4) + "|" + gitHubLocation + "|");
-
-      cardInfoGitHubHireable &&
-        console.log(" ".repeat(4) + "|" + cardInfoGitHubHireable + "|");
-      console.log(" ".repeat(5) + "-".repeat(MAX_MIDDLE));
-    })
-    .catch(error => {
-      console.error(
-        "unable to complete your transaction, maybe the user doesn't exist?"
+      // NAME
+      const gitHubName = name || login || "-";
+      lines.push(
+        chalk.cyan.bold(LABELS.name) +
+          gitHubName.padStart(MAX_WIDTH - LABELS.name.length)
       );
-      process.exit(1);
+
+      // PROFILE
+      const githubUrl = html_url || "-";
+      lines.push(
+        chalk.cyan.bold(LABELS.github) +
+          githubUrl.padStart(MAX_WIDTH - LABELS.github.length)
+      );
+
+      // PERSONAL WEBSITE
+      const blogUrl = blog || "-";
+      lines.push(
+        chalk.cyan.bold(LABELS.website) +
+          blogUrl.padStart(MAX_WIDTH - LABELS.website.length)
+      );
+
+      // COMPANY
+      const companyName = company || "-";
+      lines.push(
+        chalk.cyan.bold(LABELS.company) +
+          companyName.padStart(MAX_WIDTH - LABELS.company.length)
+      );
+
+      // LOCATION
+      const githubLocation = location || "-";
+      lines.push(
+        chalk.cyan.bold(LABELS.location) +
+          githubLocation.padStart(MAX_WIDTH - LABELS.location.length)
+      );
+
+      // HIRE STATUS
+      const hireMessage = hireable
+        ? chalk.green.bold(LABELS.hireable.hireable.padEnd(MAX_WIDTH))
+        : chalk.red.bold(LABELS.hireable.notHireable.padEnd(MAX_WIDTH));
+      lines.push(" ".repeat(MAX_WIDTH));
+      lines.push(hireMessage);
+
+      console.log(" ".repeat(5) + "-".repeat(MAX_WIDTH + 2));
+      lines.forEach(line => console.log(" ".repeat(4) + `| ${line} |`));
+      console.log(" ".repeat(5) + "-".repeat(MAX_WIDTH + 2));
+    })
+    .catch(() => {
+      console.error(`Something went wrong loading ${username}, do they exist?`);
     });
 });
