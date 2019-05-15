@@ -17,8 +17,8 @@ const LABELS = {
   company: " Company:",
   location: " Location:",
   hireable: {
-    hireable: " This applicant can be hired.",
-    notHireable: " This applicant cannot be hired."
+    hireable: " This user is currently available for hire",
+    notHireable: " This user is currently not available for hire"
   }
 };
 const options = commandLineArgs(optionDefinitions);
@@ -96,7 +96,9 @@ promptAndGetUserName().then(username => {
       console.log(" ".repeat(5) + "-".repeat(MAX_MIDDLE));
     })
     .catch(error => {
-      console.error(error);
+      console.error(
+        "unable to complete your transaction, maybe the user doesn't exist?"
+      );
       process.exit(1);
     });
 });
