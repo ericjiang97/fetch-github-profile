@@ -1,6 +1,6 @@
 {
   "name": "fetch-github-profile",
-  "version": "0.0.6-alpha1",
+  "version": "0.0.7",
   "description": "Fetching GitHub Profile and Generating a Card on CLI",
   "main": "src/index.js",
   "scripts": {
