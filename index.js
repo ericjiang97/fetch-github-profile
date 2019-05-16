@@ -9,7 +9,7 @@ const chalk = require("chalk");
 
 const optionDefinitions = [
   { name: "user", alias: "u", type: String },
-  { name: "showRepos", alias: "r", type: Boolean }
+  { name: "repos", alias: "r", type: Boolean }
 ];
 
 const MAX_WIDTH = 50;
@@ -25,7 +25,7 @@ const LABELS = {
     notHireable: "This user is currently not available for hire"
   },
   followers: "# of Followers: ",
-  topRepos: "Top 5 Repos:"
+  topRepos: "Top 3 Repos:"
 };
 
 const options = commandLineArgs(optionDefinitions);
@@ -34,7 +34,7 @@ function promptAndGetUserName() {
   if (options.user)
     return Promise.resolve({
       userName: options.user,
-      showRepos: options.showRepos
+      showRepos: options.repos
     });
 
   return inquirer
@@ -46,7 +46,7 @@ function promptAndGetUserName() {
       }
     ])
     .then(resp => {
-      return { userName: resp.username, showRepos: options.showRepos };
+      return { userName: resp.username, showRepos: options.repos };
     });
 }
 
@@ -148,7 +148,7 @@ promptAndGetUserName().then(payload => {
         );
         lines.push(" ".repeat(MAX_WIDTH));
         repos.slice(0, 5).forEach(repo => {
-          const label = `${repo.name} - ${repo.stargazers_count} ⭐  `;
+          const label = `${repo.name} - ${repo.stargazers_count} ⭐ `;
           console.log(
             " ".repeat(4) +
               `| ${chalk.gray.bold(`${label}`) +
