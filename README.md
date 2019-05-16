@@ -24,11 +24,11 @@ To run simply type `fetch-github-profile`, you can also pass in a username argum
 
 ## Flags
 
-| Flag                                     | Description                    |
-| ---------------------------------------- | ------------------------------ |
-| `-v` or `--version`                      | Returns current version        |
-| `-r` or `--repos`                        | Lists top 5 most starred repos |
-| ` -u=<username>`` or `--user=<username>` | Provide a user in              |
+| Flag                                   | Description                    |
+| -------------------------------------- | ------------------------------ |
+| `-v` or `--version`                    | Returns current version        |
+| `-r` or `--repos`                      | Lists top 5 most starred repos |
+| `-u=<username>` or `--user=<username>` | Provide a user in              |
 
 ## Developing
 
