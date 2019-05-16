@@ -4,7 +4,7 @@ Fetching a GitHub Profile Card directly into Your Terminal
 
 [![npm version](https://badge.fury.io/js/fetch-github-profile.svg)](https://github.com/lorderikir/fetch-github-profile)
 
-![](./images/example.gif)
+![](./images/demo.gif)
 
 # Package Usage
 
