@@ -64,7 +64,6 @@ promptAndGetUserName().then(payload => {
             const res = payload.sort((a, b) => {
               return b.stargazers_count - a.stargazers_count;
             });
-            console.log(res);
             return res;
           })
           .then(repos => {
