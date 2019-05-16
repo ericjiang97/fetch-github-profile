@@ -25,7 +25,7 @@ const LABELS = {
     notHireable: "This user is currently not available for hire"
   },
   followers: "# of Followers: ",
-  topRepos: "Top 3 Repos:"
+  topRepos: "Top 5 Repos:"
 };
 
 const options = commandLineArgs(optionDefinitions);
@@ -61,15 +61,18 @@ promptAndGetUserName().then(payload => {
           .get(`https://api.github.com/users/${userName}/repos`)
           .then(resp => resp.data)
           .then(payload => {
-            return payload.sort((a, b) => {
-              a.stargazers_count > b.stargazers_count ? -1 : 1;
+            const res = payload.sort((a, b) => {
+              return b.stargazers_count - a.stargazers_count;
             });
+            console.log(res);
+            return res;
           })
           .then(repos => {
             return { userData, repos, showRepos };
           });
+      } else {
+        return { userData, repos: null, showRepos };
       }
-      return { userData, repos: null, showRepos };
     })
     .then(data => {
       const { userData, repos, showRepos } = data;
@@ -136,6 +139,7 @@ promptAndGetUserName().then(payload => {
 
       console.log(" ".repeat(5) + "-".repeat(MAX_WIDTH + 2));
       lines.forEach(line => console.log(" ".repeat(4) + `| ${line} |`));
+      console.log(" ".repeat(5) + "-".repeat(MAX_WIDTH + 2));
       lines.push(" ".repeat(MAX_WIDTH));
       lines.push(" ".repeat(MAX_WIDTH));
       if (showRepos) {
@@ -144,16 +148,15 @@ promptAndGetUserName().then(payload => {
             `| ${chalk.cyan.bold(LABELS.topRepos.padEnd(MAX_WIDTH))} |`
         );
         lines.push(" ".repeat(MAX_WIDTH));
-        repos.slice(0, 3).forEach(repo => {
-          const label = `${repo.name} - ${repo.stargazers_count} ⭐`;
+        repos.slice(0, 5).forEach(repo => {
+          const label = `${repo.name} - ${repo.stargazers_count} ⭐  `;
           console.log(
             " ".repeat(4) +
               `| ${chalk.gray.bold(`${label}`) +
-                repo.html_url.toString().padStart(MAX_WIDTH - label.length)} |`
+                repo.html_url.padStart(MAX_WIDTH - label.length)} |`
           );
         });
       }
-      console.log(" ".repeat(5) + "-".repeat(MAX_WIDTH + 2));
     })
     .catch(err => {
       console.error(err);
