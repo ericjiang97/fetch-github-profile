@@ -6,10 +6,11 @@ const axios = require("axios");
 const commandLineArgs = require("command-line-args");
 const inquirer = require("inquirer");
 const chalk = require("chalk");
-
+const pjson = require("./package.json");
 const optionDefinitions = [
   { name: "user", alias: "u", type: String },
-  { name: "repos", alias: "r", type: Boolean }
+  { name: "repos", alias: "r", type: Boolean },
+  { name: "version", alias: "v", type: Boolean }
 ];
 
 const MAX_WIDTH = 50;
@@ -29,6 +30,11 @@ const LABELS = {
 };
 
 const options = commandLineArgs(optionDefinitions);
+
+if (options.version) {
+  console.log(pjson.version);
+  process.exit(0);
+}
 
 function promptAndGetUserName() {
   if (options.user)
@@ -151,7 +157,7 @@ promptAndGetUserName().then(payload => {
           const label = `${repo.name} - ${repo.stargazers_count} ⭐ `;
           console.log(
             " ".repeat(4) +
-              `| ${chalk.gray.bold(`${label}`) +
+              `| ${chalk.green.bold(`${label}`) +
                 repo.html_url.padStart(MAX_WIDTH - label.length)} |`
           );
         });
